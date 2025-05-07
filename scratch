@@ -1,0 +1,169 @@
+
+        // function sleep(ms) {
+        //     return new Promise(resolve => setTimeout(resolve, ms));
+        // }
+        // await sleep(5000);
+    for (const frame of loggedInPage.frames()) {
+        try {
+            const button = await frame.$('[data-testid="AsyncActionResultDialog-closeButton"]');
+            if (button) {
+                console.log(`Button found in frame with URL: ${frame.url()}`);
+            }
+        } catch (e) {
+            console.log(`Error accessing frame: ${frame.url()} - ${e.message}`);
+        }
+    }
+
+   FIRST PART WORKS
+
+    test("Check PDF download functionality",
+        async () => {
+            test.setTimeout(9990000);
+            await loggedInPage.getByTestId('ActionToggleButton').nth(1).click(); // if second is the correct one
+            await loggedInPage.waitForSelector('[data-testid="GrafanaExportDialog-typeInput"]');
+    // Check that 'PDF' option is present
+            const pdfOption = await loggedInPage.locator('input[type="radio"][value="pdf"]');
+            await expect(pdfOption).toBeVisible();
+            const fileNameInput = loggedInPage.locator('input[type="text"]');
+            await expect(fileNameInput).toBeVisible();
+    // "Download" it - downloads enabled in config, but pdf is disabled meaning I can intercept it rather than direct download to a tab
+            const [download] = await Promise.all([
+                loggedInPage.waitForEvent('download'),
+                loggedInPage.getByTestId('AsyncActionDialog-okButton').click(),// Replace with your download button selector
+            ]);
+
+            const downloadLocator = loggedInPage.locator('a[href$=".pdf"]'); // More resilient than full class selector
+
+    // Wait for the link to appear in the modal
+            await downloadLocator.waitFor({state: 'visible'});
+
+    // Get the relative href
+
+            // Wait for the PDF download link to appear
+            const downloadLink = loggedInPage.locator("a[href$='.pdf']");
+            await downloadLink.waitFor({state: 'visible'});
+
+            // Get href and create absolute URL
+            const href = await downloadLink.getAttribute('href');
+            const downloadUrl = new URL(href, loggedInPage.url()).toString();
+
+            // Extract filename from href (e.g. "abc123.pdf")
+            const fileNameFromHref = href.split('/').pop();
+
+            // Generate a timestamp
+            const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+
+            // Construct final filename
+            const finalFileName = `${timestamp}-${fileNameFromHref}`;
+
+            // Download the file
+            const response = await loggedInPage.request.get(downloadUrl);
+            if (!response.ok()) throw new Error(`Download failed: ${response.status()}`);
+
+            const pdfBuffer = await response.body();
+
+            // Confirm it's a PDF
+            if (pdfBuffer.slice(0, 4).toString() !== '%PDF') {
+                throw new Error('Downloaded file is not a valid PDF');
+            }
+
+            // Save the file
+            const outputDir = 'downloads';
+            fs.mkdirSync(outputDir, {recursive: true});
+            const fullPath = path.join(outputDir, finalFileName);
+            fs.writeFileSync(fullPath, pdfBuffer);
+            console.log(`PDF saved as: ${fullPath}`);
+
+
+    // Fetch the PDF content
+    //     const response = await loggedInPage.request.get(absoluteUrl);
+    //     const buffer = await response.body();
+
+    // Save to disk
+            fs.writeFileSync('downloads/report.pdf', pdfBuffer);
+
+    // Optional: Assert that it's a PDF
+            if (!pdfBuffer.slice(0, 4).toString() === '%PDF') {
+                throw new Error('Downloaded file is not a valid PDF');
+            }
+
+
+    // Save the downloaded file
+    //     await download.saveAs('downloaded_file.pdf');
+    //
+    //     const downloadUrl = await loggedInPage.getByRole('link', { name: 'Download' }).getAttribute('href');
+    //     const fullUrl = new URL(downloadUrl, loggedInPage.url()).toString(); // Handle relative URL
+    //
+    //     const response = await loggedInPage.request.get(fullUrl);
+    //     const buffer = await response.body();
+    //
+    //     const fs = require('fs');
+    //     fs.writeFileSync('downloads/report.pdf', buffer); // Save to disk
+    //
+
+            ///FLIPPIN CLOSE!!!!
+
+            await loggedInPage.getByTestId('button[data-testid=\'AsyncActionResultDialog-closeButton\']').click();
+
+
+            // ZZzzzzz at the end for debug
+            function sleep(ms) {
+                return new Promise(resolve => setTimeout(resolve, ms));
+            }
+
+            await sleep(5000000);
+
+        });
+
+
+test("Check PDF download functionality", async () => {
+
+    test.setTimeout(9990000);
+
+    await loggedInPage.getByTestId('ActionToggleButton').nth(1).click();
+    await loggedInPage.waitForSelector('[data-testid="GrafanaExportDialog-typeInput"]');
+
+    const pdfOption = loggedInPage.locator('input[type="radio"][value="pdf"]');
+    await expect(pdfOption).toBeVisible();
+
+    const fileNameInput = loggedInPage.locator('input[type="text"]');
+    await expect(fileNameInput).toBeVisible();
+
+    // Trigger the export which opens the download dialog
+    await loggedInPage.getByTestId('AsyncActionDialog-okButton').click();
+
+    // Wait for the PDF download link to appear
+    // const downloadLink = loggedInPage.locator("a[href$='.pdf']");
+    // await downloadLink.waitFor({ state: 'visible' });
+
+
+
+    const href = await downloadLink.getAttribute('href');
+    const downloadUrl = new URL(href, loggedInPage.url()).toString();
+    const fileNameFromHref = href.split('/').pop();
+    const timestamp = new Date().toISOString().replace(/[:.]/g, '-');
+    const finalFileName = `${timestamp}-${fileNameFromHref}`;
+
+    const response = await loggedInPage.request.get(downloadUrl);
+    if (!response.ok()) throw new Error(`Download failed: ${response.status()}`);
+
+    const pdfBuffer = await response.body();
+    if (pdfBuffer.slice(0, 4).toString() !== '%PDF') {
+        throw new Error('Downloaded file is not a valid PDF');
+    }
+
+    const outputDir = '../Downloads';
+    fs.mkdirSync(outputDir, { recursive: true });
+    const fullPath = path.join(outputDir, finalFileName);
+    fs.writeFileSync(fullPath, pdfBuffer);
+    console.log(`PDF saved as: ${fullPath}`);
+
+    // Close result dialog
+    const closeButton = loggedInPage.locator('[data-testid="AsyncActionResultDialog-closeButton"]');
+    if (await closeButton.isVisible()) {
+        await closeButton.click();
+    }
+
+    // Optional delay for manual debugging
+    await new Promise(resolve => setTimeout(resolve, 5000));
+});
