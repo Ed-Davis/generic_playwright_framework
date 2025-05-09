@@ -1,8 +1,12 @@
 
 # Playwright
 node_modules/
-/test-results/
-/playwright-report/
+/test-results/*
 /blob-report/
 /playwright/.cache/
+<<<<<<< HEAD
+=======
+/config
+
+>>>>>>> 29a0398 (Squashing commits)
 
