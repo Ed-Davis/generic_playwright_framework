@@ -13,10 +13,10 @@ async function login({ browser }) {
     const context = await browser.newContext();
     const page = await context.newPage();
 
-    await page.goto('/next/dashboards/g/2082/QA');
-    await page.locator("#\\:R2ij7ulqjt9kq\\:").pressSequentially(config.username);
-    await page.locator("#\\:R6jj7ulqjt9kq\\:").pressSequentially(config.password);
-    await page.locator("[data-testid='SignInLocal-signInButton']").click();
+    await page.goto('MyBaseURL');
+    await page.locator("#\\:$locator1\\:").pressSequentially(config.username);
+    await page.locator("#\\:$locator\\:").pressSequentially(config.password);
+    await page.locator("$locator").click();
     await page.waitForLoadState('networkidle');
 
     return page;
