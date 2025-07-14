@@ -10,36 +10,34 @@ test.beforeAll(async ({ browser }) => {
     loggedInPage = await login({ browser });
 });
 
-// WHEN I click the Power and Energy Graph at a predetermined point
+// WHEN I click a graph at a predetermined point
 test("Confirm tooltip timestamp at a fixed point", async () => {
-    const outerFrameHandle = await loggedInPage.waitForSelector('iframe[src*="/grafana/"]');
+    const outerFrameHandle = await loggedInPage.waitForSelector('$locator'); //placeholder
     const frame = await outerFrameHandle.contentFrame();
-    const canvas = await frame.waitForSelector('canvas');
+    const canvas = await frame.waitForSelector('$locator');
     const box = await canvas.boundingBox();
-    const x = box.x + 400;
-    const y = box.y + 100;
     await loggedInPage.mouse.click(x, y);
-    const tooltip = await frame.waitForSelector('div.css-19sz11v', { timeout: 3000 });
+    const tooltip = await frame.waitForSelector('$locator', { timeout: 3000 });
     const tooltipText = await tooltip.innerText();
-    expect(tooltipText).toContain('2025-02-09 06:00:00');
+    expect(tooltipText).toContain('$assertion');
 });
 
-// WHEN I select the export function I should be able to download a pdf file
+// WHEN I select the file export function I should be able to download a pdf file
 test("Check PDF download functionality", async () => {
-    test.setTimeout(9990000); // Adjust as needed
+    test.setTimeout(10000); // Adjust as needed
 
-    await loggedInPage.getByTestId('ActionToggleButton').nth(1).click();
-    await loggedInPage.waitForSelector('[data-testid="GrafanaExportDialog-typeInput"]');
+    await loggedInPage.getByTestId('$locator').nth(1).click();
+    await loggedInPage.waitForSelector('$locator');
 
-    const pdfOption = loggedInPage.locator('input[type="radio"][value="pdf"]');
+    const pdfOption = loggedInPage.locator('$locator');
     await expect(pdfOption).toBeVisible();
 
-    const fileNameInput = loggedInPage.locator('input[type="text"]');
+    const fileNameInput = loggedInPage.locator('$locator');
     await expect(fileNameInput).toBeVisible();
 
-    await loggedInPage.getByTestId('AsyncActionDialog-okButton').click();
+    await loggedInPage.getByTestId('$locator').click();
 
-    const downloadLink = loggedInPage.locator('a:has(svg[data-testid="CloudDownloadIcon"])');
+    const downloadLink = loggedInPage.locator('$locator');
     await downloadLink.waitFor({ state: 'visible' });
     await loggedInPage.waitForTimeout(1000);
 
@@ -68,7 +66,7 @@ test("Check PDF download functionality", async () => {
     const header = buffer.subarray(0, 4).toString();
     expect(header).toBe('%PDF');
 
-    const closeButton = loggedInPage.locator('[data-testid="AsyncActionResultDialog-closeButton"]');
+    const closeButton = loggedInPage.locator('$locator');
     if (await closeButton.isVisible()) {
         await closeButton.click();
     }
@@ -82,23 +80,24 @@ test.describe('Mocked tests (conditionally enabled)', () => {
         }
     });
 
-    test('Mock a dashboard data request using loggedInPage', async () => {
-        await loggedInPage.route('**/api/ds/query', async route => {
-            console.log('Mocked /api/ds/query hit');
+    test('Mock a data request using loggedInPage', async () => {
+        await loggedInPage.route('$route', async route => {
+            console.log('Mocked thing happened');
             await route.fulfill({
                 status: 200,
                 contentType: 'application/json',
                 body: JSON.stringify({
                     results: [],
-                    message: 'Mocked dashboard data',
+                    message: 'Mocked data',
                 }),
             });
         });
 
-        await loggedInPage.goto('/next/dashboards/g/2082/QA');
+        await loggedInPage.goto('$page');
     });
 });
 
 test.afterAll(async () => {
     await loggedInPage.close();
+
 });

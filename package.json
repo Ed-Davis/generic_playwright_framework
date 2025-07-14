@@ -1,10 +1,10 @@
 {
-  "name": "intellisense_io_takehome",
+  "name": "generic_playwright_framework",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {},
   "keywords": [],
-  "author": "",
+  "author": "Ed-Davis@GitHub",
   "license": "ISC",
   "description": "",
   "devDependencies": {

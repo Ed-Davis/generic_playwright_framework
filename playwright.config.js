@@ -14,7 +14,7 @@ module.exports = defineConfig({
 
   use: {
     timeout: 50000,
-    baseURL: 'https://qa-test.intellisense.io',
+    baseURL: '$my_base_url',
     headless: true,
     args: ['--disable-pdf-extension'],
     acceptDownloads: true,
