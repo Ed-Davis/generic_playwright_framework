@@ -2,7 +2,9 @@
 
 #### tldr;
 
-If you need a kickstart learning automation with Playwright using JavaScript with github actions, I am making this available. Look for values begining with a dollar sign such as: `$locator`. Youll need to populate the base URL and the credentials which you can do locally using ENV variables or add them to github secrets which is preferable as nothing is hard coded and thats what I've gone for in the working example I have created this sanitised/generic solution for. **NOTE:** Do not expect the code, 'Actions', or PR's with checks to work in its current state. This code is from a framework I built that wasn't used so I decided to make the work public in order to make it useful to 'someone'/
+If you need a kickstart learning automation with Playwright using JavaScript with github actions. Look for values begining with a dollar sign such as:`$locator`. You'll need to populate the base URL and the credentials which you can do locally using ENV variables or add them to github secrets which is preferable as nothing is hard coded and thats what I've gone for in the working example I have created this sanitised/generic solution for. 
+
+**NOTE:** Do not expect the code, 'Actions', or PR's with checks to work in its current state. This code is from a framework I built that wasn't used so I decided to make the work public in order to make it useful to 'someone'!
 
 *Personally*, I'd use this as a guide or reference but build your own so you become familiar with what is going on. If you want to reuse my code, all I ask is an 'Author' comment by codeblocks or in files. Maybe then set yourself the task of improving on them and making them your own? I am not making this public for you **not** to use, so go for it if some other pressure suggests but again, attribution is just polite :)
 
