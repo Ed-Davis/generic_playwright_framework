@@ -1,6 +1,6 @@
 # Purpose
 
-### tldr;
+## tldr;
 
 If you need a kickstart learning automation with Playwright using JavaScript with github actions. Look for values begining with a dollar sign such as:`$locator`. 
 
@@ -12,7 +12,7 @@ You'll need to populate the base URL and the credentials which you can do locall
 
 ## Solution Breakdown
 
-# Approach
+### Approach
 After setting up Playwright with JavaScript (not TypeScript), I first structured the tests usiging comments with what the test should do and any notes.
 
 Next, I add 'Given, When, Then' specification by example (BDD) structure descriptions and steps, as I feel this gives a simple but clear guide and starts you thinking about which actions are repeated and which aspects are what you are actually testing.
@@ -27,7 +27,7 @@ This is my fairly standard approach to getting something going from nothing as i
 
 Maybe this would be different if I had gone from project to project using the same tools to address the same needs, but quite gladly this is not the case, though I hope not.  If you want to use your favourite hammer all the time, you might not be asking the right questions, as very rarely do you find every job you encounter is a nail (I'll stop with the metaphors now, possibly). Tech-Stack choice and solution design based on the context is a more valuable skill than remembering the specific commands and steps. The broader skills will serve you for a whole career whereas memorising stuff might only get you to the next patch!  
 
-These are quite obscure requirements but were for a tech test written by someone who didn't seem to understand testing but who wanted an off the shelf solution free of charge without employing anyone! Seriously, the CEO even admitted he had no hesitation in using whatever tactics were needed to get the job done with the existing numbers (and skillset) - citing AI or any other method that gets them what they wanted. Therein lies some of the oddities in this solution; the page used archaic locator styles and page structure. Much of the stuff which was to work around this barrier (all software deserves assurance, like it or not!). This is why it is written in Javascript (their dev questioned why JS was used rather that TS, but it was a requirement, and you know what QA types are like when they see one of those!).
+These are quite obscure requirements but were for a tech test written by someone who didn't seem to understand testing but who wanted an off the shelf solution free of charge without employing anyone! Seriously, the CEO even admitted he had no hesitation in using whatever tactics were needed to get the job done with the existing numbers (and skillset) - citing AI or any other method that gets them what they wanted. Therein lies some of the oddities in this solution; the page used archaic locator styles and page structure. Much of the stuff which was to work around this barrier (all software deserves assurance, like it or not!). This is why it is written in Javascript (their dev questioned why JS was used rather that TS, but it was a requirement, and you know what QA types are like when they see one of those!). With all this in mind I refer you back to the option to use this as a guide but to explore ways of implementing slicker solutions if your web app is more 'testable'.
 
 I’ve chosen to execute these tests using Chrome, but most browsers can be used, or even, of course, a third-party browser farm service - implementing them is surprisingly east these days.
 
@@ -36,13 +36,13 @@ In this challeng, the download file to be tested does not go to disk by default.
 
 So, the test performs the actions and then checks that the file is called a `.pdf`. As I lightheartedly put in the comments, “PDF by name,” but then it uses `fs` to check the file header to confirm it’s an actual PDF—“PDF by nature”!
 
-## Secrets
+### Secrets
 Secrets are stored securely in GitHub Secrets and are used to populate the `config.json` file during the test run. They are cleared afterward, returning the file to its default state (i.e., `"username": ""`, etc.).
 
-## Mocking Solution
+### Mocking Solution
 There is one mocked test to intercept an API call. This isn’t how I’d normally mock tests—in fact, I rarely mock or stub, since I’m not usually asked to write unit tests. This part relied heavily on Googling.
 
-## Running Tests Locally
+### Running Tests Locally
 To run these tests locally:
 
 1. Install Playwright (JavaScript) and clone the repo using `git clone`.
