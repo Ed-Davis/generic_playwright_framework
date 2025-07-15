@@ -12,14 +12,16 @@ You'll need to populate the base URL and the credentials which you can do locall
 
 ## Solution Breakdown
 
-## Approach
-After setting up Playwright with JavaScript (not TypeScript), I first structured the tests usiging comments with what the test should do and any notes. I add 'Given, When, Then' specification by example (BDD) structure as I feel this gives a simple but clear guide and starts you thinking about which actions are repeated and which aspects are what you are actually testing.
+# Approach
+After setting up Playwright with JavaScript (not TypeScript), I first structured the tests usiging comments with what the test should do and any notes.
 
-I then began populating them with actual code, and then I identified the locators needed for the first test I am focussed on. 
+Next, I add 'Given, When, Then' specification by example (BDD) structure descriptions and steps, as I feel this gives a simple but clear guide and starts you thinking about which actions are repeated and which aspects are what you are actually testing.
 
-Next, I work out which are the most useful, reliable, representative etc. things to assert against are, and then add those assertions as actual code. 
+I then began populating them with actual code, and next identify the locators needed for the first test I am focussed on. Comment out any tests you aren't using to keep it simple. 
 
-Comfortable with what the structure is going to be, I created a `beforeAll` and `afterAll` to handle login and window closure, respectively, and made helper functions that make it clear what is going on without things getting messy.
+Next, I work out which are the most useful, reliable, representative etc. things to assert against are, and note them in the place you want to add them, and then add those assertions as actual code. 
+
+Comfortable with the structure, I created a `beforeAll` and `afterAll` to handle login and window closure, respectively, and made helper functions that make it clear what is going on without things getting messy.
 
 This is my fairly standard approach to getting something going from nothing as it work. Don't beleive that your average QA will remember this stuff; the reality is that you constantly refine the framework as your requirements evolve, you are regularly updating and adding tests, but quite honestly, after nearly 2 decades of experience, I still check the documentation thoroughly before building a new framework. 
 
