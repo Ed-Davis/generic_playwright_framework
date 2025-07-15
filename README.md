@@ -1,6 +1,6 @@
 # Purpose
 
-#### tldr;
+### tldr;
 
 If you need a kickstart learning automation with Playwright using JavaScript with github actions. Look for values begining with a dollar sign such as:`$locator`. You'll need to populate the base URL and the credentials which you can do locally using ENV variables or add them to github secrets which is preferable as nothing is hard coded and thats what I've gone for in the working example I have created this sanitised/generic solution for. 
 
